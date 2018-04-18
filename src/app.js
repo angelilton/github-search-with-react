@@ -1,35 +1,47 @@
 'use strict'
 
 import React, {Component} from 'react'
+import ajax from '@fdaciuk/ajax'
 import AppContent from './components/app-content'
 
 class App extends Component {
   constructor () {
     super()
     this.state = {
-      userinfo: {
-        username: 'Angelilton Epifanio',
-        login: 'angelilton',
-        photo: 'https://avatars0.githubusercontent.com/u/16200828?v=4',
-        repos: 12,
-        followers: 10,
-        following: 20
-      },
-      repos: [{
-        name: 'curso de js',
-        link: '#'
-      }],
-      starred: [{
-        name: 'repo',
-        link: '#'
-      }]
+      userinfo: null,
+      repos: [],
+      starred: []
     }
   }
+
+  handleSearch (e) {
+    const userName = e.target.value
+    const keyCode = e.which || e.keyCode
+    const ENTER = 13
+
+    if (keyCode === ENTER) {
+      ajax().get(`https://api.github.com/users/${userName}`)
+        .then((result) => {
+          this.setState({
+            userinfo: {
+              username: result.name,
+              photo: result.avatar_url,
+              login: result.login,
+              repos: result.public_repos,
+              followers: result.followers,
+              following: result.following
+            }
+          })
+        })
+    }
+  }
+
   render () {
     return <AppContent
       userinfo={this.state.userinfo}
       repos={this.state.repos}
       starred={this.state.starred}
+      handleSearch={(e) => this.handleSearch(e)}
     />
   }
 }

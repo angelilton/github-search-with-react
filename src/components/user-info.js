@@ -8,7 +8,7 @@ const UserInfo = ({ userinfo }) => (
 
     <h1 className='username'>
       <a href={`https://github.com/${userinfo.login}`}>
-      {userinfo.username}
+        {userinfo.username}
       </a>
     </h1>
 
