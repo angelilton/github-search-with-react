@@ -14,6 +14,7 @@ class App extends Component {
     }
   }
 
+  // função que faz o request e passa os props para o userInfo
   handleSearch (e) {
     const userName = e.target.value
     const keyCode = e.which || e.keyCode
@@ -30,7 +31,26 @@ class App extends Component {
               repos: result.public_repos,
               followers: result.followers,
               following: result.following
-            }
+            },
+            repos: [],
+            starred: []
+          })
+        })
+    }
+  }
+
+  getRepos (type) {
+    return (e) => {
+      const userName = this.state.userinfo.login
+      ajax().get(`https://api.github.com/users/${userName}/${type}`)
+        .then((result) => {
+          this.setState({
+            [type]: result.map((repo) => (
+              {
+                name: repo.name,
+                link: repo.html_url
+              })
+            )
           })
         })
     }
@@ -42,6 +62,8 @@ class App extends Component {
       repos={this.state.repos}
       starred={this.state.starred}
       handleSearch={(e) => this.handleSearch(e)}
+      getRepos={this.getRepos('repos')}
+      getStarred={this.getRepos('starred')}
     />
   }
 }
