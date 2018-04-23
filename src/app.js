@@ -10,7 +10,8 @@ class App extends Component {
     this.state = {
       userinfo: null,
       repos: [],
-      starred: []
+      starred: [],
+      isRequesting: false
     }
   }
 
@@ -21,6 +22,8 @@ class App extends Component {
     const ENTER = 13
 
     if (keyCode === ENTER) {
+      this.setState({ isRequesting: true })
+
       ajax().get(`https://api.github.com/users/${userName}`)
         .then((result) => {
           this.setState({
@@ -36,6 +39,7 @@ class App extends Component {
             starred: []
           })
         })
+        .always(() => this.setState({ isRequesting: false }))
     }
   }
 
@@ -61,6 +65,7 @@ class App extends Component {
       userinfo={this.state.userinfo}
       repos={this.state.repos}
       starred={this.state.starred}
+      isRequesting={this.state.isRequesting}
       handleSearch={(e) => this.handleSearch(e)}
       getRepos={this.getRepos('repos')}
       getStarred={this.getRepos('starred')}
