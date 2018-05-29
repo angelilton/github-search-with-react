@@ -42,7 +42,11 @@ const AppContent = ({
 AppContent.propTypes = {
   userinfo: PropTypes.object,
   repos: PropTypes.array.isRequired,
-  starred: PropTypes.array.isRequired
+  starred: PropTypes.array.isRequired,
+  isRequesting: PropTypes.bool.isRequired,
+  getRepos: PropTypes.func.isRequired,
+  getStarred: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired
 }
 
 export default AppContent

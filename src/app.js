@@ -13,6 +13,8 @@ class App extends Component {
       starred: [],
       isRequesting: false
     }
+
+    this.handleSearch = this.handleSearch.bind(this)
   }
 
   // função que faz o request e passa os props para o userInfo
@@ -62,11 +64,8 @@ class App extends Component {
 
   render () {
     return <AppContent
-      userinfo={this.state.userinfo}
-      repos={this.state.repos}
-      starred={this.state.starred}
-      isRequesting={this.state.isRequesting}
-      handleSearch={(e) => this.handleSearch(e)}
+      {...this.state}
+      handleSearch={this.handleSearch}
       getRepos={this.getRepos('repos')}
       getStarred={this.getRepos('starred')}
     />
